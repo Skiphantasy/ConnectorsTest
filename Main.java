@@ -1,7 +1,7 @@
 /**
  * This program asks the user for a dni and looks for it on the MySQL database, if not found, it asks again for a valid dni.
- * After that, it asks the path you want to create the local SQLite database and creates it, creating a table for penalties
- * and showing the current penalties for the dni entered at start and the total amount of money of penalties for that dni.
+ * After that, it creates the local SQLite database in the project folder, creates a table for penalties 
+ * and shows the current penalties for the dni entered at start and the total amount of money of penalties for that dni.
  * Then, the program asks if the user wants to delete or not a penalty, if a penalty is deleted, the list of all penalties left will
  * be showed again. Once the user has finished deleting penalties, the local database is deleted and MySQL database will be updated
  * (the penalties deleted will not be there anymore).

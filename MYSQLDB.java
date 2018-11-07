@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-
 /**
  * Class MYSQLDB
  */
@@ -34,11 +33,6 @@ public class MYSQLDB {
 	 * @type ResultSet
 	 */
 	private ResultSet resultSet;
-	/**
-	 * @variable_name correctPath
-	 * @type boolean
-	 */
-	private boolean correctPath = false;
 	/**
 	 * @variable_name dataBasePath
 	 * @type String
@@ -75,18 +69,17 @@ public class MYSQLDB {
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/sanciones", "root", "");
 			statement = connection.createStatement();
-			System.out.println("Introduzca el DNI del conductor: ");
+			System.out.println("Introduzca el DNI del conductor: \n");
 			do {
 				String dni = kb.nextLine();
 				String sql = "SELECT dni FROM conductores WHERE dni LIKE '" + dni + "'";
 				resultSet = statement.executeQuery(sql);
 
 				if (!resultSet.next()) {
-					System.err.print("\nNo existe un conductor con el dni introducido.\n");
+					System.err.println("\nNo existe un conductor con el dni introducido.\n");
 					System.err.flush();
-					System.out.print("\nPor favor, vuelva a introducir el DNI: \n");
+					System.out.println("Por favor, vuelva a introducir el DNI: \n");
 				} else {
-					System.out.println("DNI: " + resultSet.getString(1));
 					foundDNI = true;
 					resultSet.close();
 					statement.close();
@@ -94,9 +87,9 @@ public class MYSQLDB {
 							+ "FROM sanciones, conductores, vehiculos\r\n" + "WHERE dni LIKE '" + dni + "'\r\n"
 							+ "                   AND matricula = vehiculo \r\n"
 							+ "                   AND dni = conductor";
-
-					this.dataBasePath = checkConnectionSQLite();
-
+					this.dataBasePath = "./sanciones.db";
+					sqLite = new SQLiteDB(this, dataBasePath, DriverManager.getConnection("jdbc:sqlite:" + dataBasePath));
+					sqLite.connectSQLite();
 					statement = connection.createStatement();
 					resultSet = statement.executeQuery(sql);
 
@@ -180,42 +173,4 @@ public class MYSQLDB {
 			System.out.println("\nFin del programa");
 		}
 	}
-
-	/**
-	 * Method that allows to enter the path where local SQLite database will be
-	 * created
-	 * 
-	 * @name enterPath
-	 * @return scanner.nextLine
-	 */
-	public String enterPath() {
-		Scanner kb1 = new Scanner(System.in);
-		System.out.println("\nIntroduzca la ruta en la que desea crear la base de datos SQLite");
-		System.out.println("Ejemplo de ruta: C:/Users/Tania/Documents\n");
-		return kb1.nextLine();
-	}
-
-	/**
-	 * Method that checks if the path where local SQLite database is correct
-	 * 
-	 * @name checkConnectionSQLite
-	 * @return dataBasePath
-	 */
-	public String checkConnectionSQLite() {
-		do {
-			dataBasePath = enterPath();
-			try {
-				sqLite = new SQLiteDB(this, dataBasePath,
-						DriverManager.getConnection("jdbc:sqlite:" + dataBasePath + "/sanciones.db"));
-				sqLite.connectSQLite();
-				correctPath = true;
-			} catch (SQLException e) {
-				System.err.print("\nRuta incorrecta. No se ha podido conectar a la base de datos");
-				correctPath = false;
-				//e.printStackTrace();
-			}
-		} while (correctPath == false);
-		return dataBasePath;
-	}
-
 }

@@ -25,32 +25,32 @@ public class SQLiteDB {
 	 * @variable_name mySQL
 	 * @type MYSQLDB
 	 */
-	MYSQLDB mySQL;
+	private MYSQLDB mySQL;
 	/**
 	 * @variable_name sql
 	 * @type String
 	 */
-	String sql;
+	private String sql;
 	/**
 	 * @variable_name penalties
 	 * @type ArrayList<Integer>
 	 */
-	ArrayList<Integer> penalties;
+	private ArrayList<Integer> penalties;
 	/**
 	 * @variable_name connection
 	 * @type Connection
 	 */
-	Connection connection;
+	private Connection connection;
 	/**
 	 * @variable_name dataBasePath
 	 * @type String
 	 */
-	String dataBasePath;
+	private String dataBasePath;
 	/**
 	 * @variable_name statement
 	 * @type Statement
 	 */
-	Statement statement;
+	private Statement statement;
 
 	/**
 	 * Class SQLiteDB Constructor
@@ -185,12 +185,12 @@ public class SQLiteDB {
 					System.out.println("\nIntroduzca número de sanción \n(El número debe ser mayor que 0)\n");
 					penalty = Integer.parseInt((kb.nextLine()));
 					} catch (NumberFormatException nf) {
-						System.err.println("\nError. No ha introducido un número");
+						System.err.println("\nError. No ha introducido un valor válido");
 						System.err.flush();
 						penalty = 0;
 						//nf.printStackTrace();
 					} catch (InputMismatchException im) {
-						System.err.println("\nError. No ha introducido un número");
+						System.err.println("\nError. No ha introducido un valor válido");
 						System.err.flush();
 						penalty = 0;
 						//im.printStackTrace();
@@ -215,17 +215,11 @@ public class SQLiteDB {
 				queryData();
 			} else {
 				connection.close();
-
 				File file = new File(dataBasePath);
-				File[] files = file.listFiles();
 
-				for (int i = 0; i < files.length; i++) {
-					File file2 = new File(file, files[i].getName());
-
-					if (file2.getName().equals("sanciones.db")) {
-						if (file2.delete()) {
-							System.out.println("\n---Base de datos local borrada---\n");
-						}
+				if (file.getName().equals("sanciones.db")) {
+					if (file.delete()) {
+						System.out.println("\n---Base de datos local borrada---\n");
 					}
 				}
 				mySQL.updateDataBase(penalties);
