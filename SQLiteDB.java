@@ -85,7 +85,8 @@ public class SQLiteDB {
 					+ " nombre varchar(40)," + " fecha_sancion NOT NULL," + " importe tinyint)");
 			statement.close();
 		} catch (SQLException e) {
-			System.err.print("No se ha podido conectar a la base de datos");
+			System.err.print("\nNo se ha podido conectar a la base de datos");
+			System.err.flush();
 			//e.printStackTrace();
 		}
 	}
@@ -105,7 +106,8 @@ public class SQLiteDB {
 					+ resultSet.getString(5) + "', '" + resultSet.getInt(6) + "')");
 			statement.close();
 		} catch (SQLException e) {
-			System.err.print("No se ha podido conectar a la base de datos");
+			System.err.print("\nNo se ha podido conectar a la base de datos");
+			System.err.flush();
 			//e.printStackTrace();
 		}
 	}
@@ -148,7 +150,8 @@ public class SQLiteDB {
 			deletePenalties();
 
 		} catch (SQLException e) {
-			System.err.print("No se ha podido conectar a la base de datos");
+			System.err.print("\nNo se ha podido conectar a la base de datos");
+			System.err.flush();
 			//e.printStackTrace();
 		}
 	}
@@ -165,12 +168,13 @@ public class SQLiteDB {
 		ResultSet resultSet;
 
 		do {
-			System.out.println("\n ¿Desea anular alguna sanción? SI/NO\n");
+			System.out.println("\n¿Desea anular alguna sanción? SI/NO\n");
 			answer = kb.nextLine();
 			answer = answer.toUpperCase();
 
 			if ((!answer.equals("SI") && !answer.equals("SÍ")) && !answer.equals("NO")) {
-				System.err.println("Error. Sólo puede introducir SI/NO");
+				System.err.println("\nError. Sólo puede introducir SI/NO");
+				System.err.flush();
 			}
 
 		} while ((!answer.equals("SI") && !answer.equals("SÍ")) && !answer.equals("NO"));
@@ -181,11 +185,13 @@ public class SQLiteDB {
 					System.out.println("\nIntroduzca número de sanción \n(El número debe ser mayor que 0)\n");
 					penalty = Integer.parseInt((kb.nextLine()));
 					} catch (NumberFormatException nf) {
-						System.err.println("Error. No ha introducido un número\n");
+						System.err.println("\nError. No ha introducido un número");
+						System.err.flush();
 						penalty = 0;
 						//nf.printStackTrace();
 					} catch (InputMismatchException im) {
-						System.err.println("Error. No ha introducido un número\n");
+						System.err.println("\nError. No ha introducido un número");
+						System.err.flush();
 						penalty = 0;
 						//im.printStackTrace();
 					}
@@ -218,14 +224,15 @@ public class SQLiteDB {
 
 					if (file2.getName().equals("sanciones.db")) {
 						if (file2.delete()) {
-							System.out.println("---Base de datos local borrada---\n");
+							System.out.println("\n---Base de datos local borrada---\n");
 						}
 					}
 				}
 				mySQL.updateDataBase(penalties);
 			}
 		} catch (SQLException e) {
-			System.err.print("No se ha podido conectar a la base de datos");
+			System.err.print("\nNo se ha podido conectar a la base de datos");
+			System.err.flush();
 			//e.printStackTrace();
 		}
 

@@ -83,7 +83,8 @@ public class MYSQLDB {
 
 				if (!resultSet.next()) {
 					System.err.print("\nNo existe un conductor con el dni introducido.\n");
-					System.out.print("Por favor, vuelva a introducir el DNI: \n");
+					System.err.flush();
+					System.out.print("\nPor favor, vuelva a introducir el DNI: \n");
 				} else {
 					System.out.println("DNI: " + resultSet.getString(1));
 					foundDNI = true;
@@ -168,7 +169,8 @@ public class MYSQLDB {
 			answer = answer.toUpperCase();
 
 			if ((!answer.equals("SI") && !answer.equals("SÍ")) && !answer.equals("NO")) {
-				System.err.println("Error. Sólo puede introducir SI/NO");
+				System.err.print("\nError. Sólo puede introducir SI/NO\n");
+				System.err.flush();
 			}
 		} while ((!answer.equals("SI") && !answer.equals("SÍ")) && !answer.equals("NO"));
 
